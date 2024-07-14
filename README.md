@@ -17,6 +17,7 @@ Development Environment: Jupyter Notebook, Python
 **Project Goals**
 
 Primary Goal: To predict the outcome of horse races (e.g., win or place).
+
 **Secondary Goals:**
 
 To identify significant features affecting race outcomes.
