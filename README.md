@@ -11,7 +11,7 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
 - **Size:** 821,465 records.
 - **Timeframe:** 30 years (1990–2020).
 - **Features:**
-  - **Horse-specific:** `weight`, `RPR` (Race Performance Rating), `TR` (Trainer Rating), `speed_ratio`, `success_rate`.
+  - **Horse-specific:** `weight`, `RPR` (Race Performance Rating), `TR` (Top speed), `speed_ratio`, `success_rate`.
   - **Race-specific:** `course`, `distance`, `position`, `res_win` (target variable).
   - **Categorical:** `trainerName`, `jockeyName`, `course`.
 
@@ -90,6 +90,7 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
 ### **5. Models Tested**
 
 #### **Random Classifier (Baseline):**
+ Best Parameters: {'n_estimators': 300, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_depth': 30, 'bootstrap': False}
 - **Confusion Matrix:**
   ```
   [[741781      0]
@@ -98,6 +99,8 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
 - **Accuracy:** 100% (misleading due to imbalance).
 
 #### **Logistic Regression:**
+# Best Parameters for Logistic Regression:
+ {'solver': 'liblinear', 'penalty': 'l2', 'C': 10}
 - **Confusion Matrix:**
   ```
   [[742187    110]
@@ -109,6 +112,8 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
   - F1-Score (Class 1): 100%.
 
 #### **Gradient Boosting (Selected Model):**
+# Best Parameters for Gradient Boosting:
+ {'subsample': 0.8, 'n_estimators': 100, 'max_depth': 3, 'learning_rate': 0.01}
 - **Confusion Matrix:**
   ```
   [[742297      0]
@@ -129,8 +134,8 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
 4. **Optimized Performance:**
    - Fine-tuned hyperparameters:
      - `n_estimators`: 100
-     - `max_depth`: 5
-     - `learning_rate`: 0.1
+     - `max_depth`: 3
+     - `learning_rate`: 0.01
    - Delivered a balance of precision and recall.
 5. **Scalability:**
    - Performs efficiently on large datasets with many features.
