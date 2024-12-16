@@ -93,8 +93,8 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
  Best Parameters: {'n_estimators': 300, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_depth': 30, 'bootstrap': False}
 - **Confusion Matrix:**
   ```
-  [[741781      0]
-   [     0  79684]]
+  [[143147      1]
+   [     0  15429]]
   ```
 - **Accuracy:** 100% (misleading due to imbalance).
 
@@ -103,8 +103,8 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
  {'solver': 'liblinear', 'penalty': 'l2', 'C': 10}
 - **Confusion Matrix:**
   ```
-  [[742187    110]
-   [     0  79168]]
+ [[143147      1]
+   [     0  15429]]
   ```
 - **Metrics:**
   - Precision (Class 1): 100%.
