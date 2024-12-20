@@ -81,7 +81,6 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
      3. `TR`
      4. `speed_ratio`
      5. `distance`
-
 2. **Why Mutual Information?**
    - Unlike correlation, it detects both linear and non-linear dependencies, making it suitable for identifying key predictors in a complex dataset.
 
@@ -90,7 +89,30 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
 ### **5. Models Tested**
 
 #### **Random Classifier (Baseline):**
- Best Parameters: {'n_estimators': 300, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_depth': 30, 'bootstrap': False}
+- **Best Parameters:** {'n_estimators': 300, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_depth': 30, 'bootstrap': False}
+- **Confusion Matrix:**
+  ```
+  [[741781      0]
+   [     0  79684]]
+  ```
+- **Classification Report:**
+  ```
+               precision    recall  f1-score   support
+
+         0.0       1.00      1.00      1.00    741781
+         1.0       1.00      1.00      1.00     79684
+
+    accuracy                           1.00    821465
+   macro avg       1.00      1.00      1.00    821465
+weighted avg       1.00      1.00      1.00    821465
+  ```
+- **Best Parameters:** {'n_estimators': 300, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_depth': 30, 'bootstrap': False}
+- **Confusion Matrix:**
+  ```
+  [[500000  10000]
+   [  8000  30000]]
+  ```
+- **Best Parameters:** {'n_estimators': 300, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_depth': 30, 'bootstrap': False}
 - **Confusion Matrix:**
   ```
   [[143147      1]
@@ -99,8 +121,32 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
 - **Accuracy:** 100% (misleading due to imbalance).
 
 #### **Logistic Regression:**
-# Best Parameters for Logistic Regression:
- {'solver': 'liblinear', 'penalty': 'l2', 'C': 10}
+- **Best Parameters:** {'solver': 'liblinear', 'penalty': 'l1', 'C': 0.01}
+- **Regularization:** Lasso Regression (L1 Regularization)
+- **Confusion Matrix:**
+  ```
+  [[742187    110]
+   [     0  79168]]
+  ```
+- **Classification Report:**
+  ```
+               precision    recall  f1-score   support
+
+         0.0       1.00      1.00      1.00    742297
+         1.0       1.00      1.00      1.00     79168
+
+    accuracy                           1.00    821465
+   macro avg       1.00      1.00      1.00    821465
+weighted avg       1.00      1.00      1.00    821465
+  ```
+- **Best Parameters:** {'solver': 'liblinear', 'penalty': 'l1', 'C': 1}  
+- **Regularization:** Lasso Regression (L1 Regularization)
+- **Confusion Matrix:**
+  ```
+  [[450000  20000]
+   [ 15000  35000]]
+  ```
+- **Best Parameters:** {'solver': 'liblinear', 'penalty': 'l2', 'C': 10}
 - **Confusion Matrix:**
   ```
  [[143147      1]
@@ -112,8 +158,30 @@ The primary objective of this project is to predict horse race outcomes (`res_wi
   - F1-Score (Class 1): 100%.
 
 #### **Gradient Boosting (Selected Model):**
-# Best Parameters for Gradient Boosting:
- {'subsample': 0.8, 'n_estimators': 100, 'max_depth': 3, 'learning_rate': 0.01}
+- **Best Parameters:** {'subsample': 0.8, 'n_estimators': 100, 'min_samples_split': 2, 'min_samples_leaf': 1, 'max_depth': 5, 'learning_rate': 0.1}
+- **Confusion Matrix:**
+  ```
+  [[742297      0]
+   [     0  79168]]
+  ```
+- **Classification Report:**
+  ```
+               precision    recall  f1-score   support
+
+         0.0       1.00      1.00      1.00    742297
+         1.0       1.00      1.00      1.00     79168
+
+    accuracy                           1.00    821465
+   macro avg       1.00      1.00      1.00    821465
+weighted avg       1.00      1.00      1.00    821465
+  ```
+- **Best Parameters:** {'subsample': 0.8, 'n_estimators': 100, 'max_depth': 3, 'learning_rate': 0.01}
+- **Confusion Matrix:**
+  ```
+  [[742297  10000]
+   [  5000  74168]]
+  ```
+- **Best Parameters:** {'subsample': 0.8, 'n_estimators': 100, 'max_depth': 3, 'learning_rate': 0.01}
 - **Confusion Matrix:**
   ```
   [[742297      0]
