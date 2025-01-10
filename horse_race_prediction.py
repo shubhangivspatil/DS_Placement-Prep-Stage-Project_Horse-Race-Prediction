@@ -1,14 +1,16 @@
+
 import os
 import streamlit as st
 import pandas as pd
 import pickle
 import json
-import shap  # SHAP library for explainability
 import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
 
 # Paths configuration
 log_dir = 'D:/GUVI_Projects/My_Projects/new_horse/Horse'
-cleaned_dataset_path = os.path.join(log_dir, 'cleaned_final_dataset.csv')  # For user display
+cleaned_dataset_path = os.path.join(log_dir, 'cleaned_final_dataset_new.csv')  # For user display
 mappings_file_path = os.path.join(log_dir, 'mappings.json')  # For backend mapping
 cleaned_mapped_dataset_path = os.path.join(log_dir, 'cleaned_dataset_with_mappings.csv')  # Backend operations
 gb_model_save_path = os.path.join(log_dir, 'horse_gb_model.pkl')
@@ -76,7 +78,7 @@ def footer():
 def main():
     st.title("Horse Race Prediction")
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to:", ["Home", "Predict"])
+    page = st.sidebar.radio("Go to:", ["Home", "Predict", "Historical Insights"])
 
     if page == "Home":
         st.header("Horse Race Prediction Project")
@@ -151,27 +153,47 @@ def main():
                         st.subheader("Prediction Result")
                         st.write(f"The predicted outcome for this race is: **{'Win' if prediction == 1 else 'Lose'}**")
 
-                                                # SHAP explanation
-                        st.subheader("Feature Contributions Explanation")
-                        explainer = shap.TreeExplainer(model)
-                        shap_values = explainer.shap_values(input_data)
-
-                        # Force Plot
-                        st.write("### Force Plot")
-                        fig_force = shap.force_plot(explainer.expected_value, shap_values[0], input_data.iloc[0], matplotlib=True)
-                        st.pyplot(fig_force)
-
-                        # Summary Plot
-                        st.write("### Summary Plot")
-                        fig_summary = plt.figure()
-                        shap.summary_plot(shap_values, input_data, plot_type="bar", show=False)
-                        st.pyplot(fig_summary)
-
-
                     except Exception as e:
                         st.error(f"Error during prediction: {e}")
 
         footer()
 
+    elif page == "Historical Insights":
+        st.header("Historical Data Insights")
+
+        display_dataset = load_dataset(cleaned_dataset_path)
+        if display_dataset is not None:
+            st.write("### Win Percentage by Trainer")
+            trainer_win_rate = display_dataset.groupby('trainerName')['res_win'].mean().sort_values(ascending=False).reset_index()
+            fig = px.bar(trainer_win_rate, x='trainerName', y='res_win', title='Win Percentage by Trainer', labels={'res_win': 'Win Percentage', 'trainerName': 'Trainer'}, color='res_win')
+            st.plotly_chart(fig)
+            st.write("**Insight:** This chart highlights trainers with the highest win percentages. It helps in identifying trainers with consistent performance.")
+
+            st.write("### Horse Weight Distribution")
+            fig = px.histogram(display_dataset, x='weight', title='Horse Weight Distribution', labels={'weight': 'Weight (kg)'}, nbins=30, color_discrete_sequence=['#636EFA'])
+            st.plotly_chart(fig)
+            st.write("**Insight:** The weight distribution shows the typical range of horse weights. Understanding this helps in categorizing horses by their physical attributes.")
+
+            st.write("### Performance by Jockey")
+            jockey_win_rate = display_dataset.groupby('jockeyName')['res_win'].mean().sort_values(ascending=False).head(10).reset_index()
+            fig = px.bar(jockey_win_rate, x='jockeyName', y='res_win', title='Top 10 Jockeys by Win Percentage', labels={'res_win': 'Win Percentage', 'jockeyName': 'Jockey'}, color='res_win')
+            st.plotly_chart(fig)
+            st.write("**Insight:** This chart focuses on the top 10 jockeys, showcasing their win consistency and effectiveness in races.")
+
+            st.write("### Race Distance Distribution")
+            fig = px.histogram(display_dataset, x='distance', title='Race Distance Distribution', labels={'distance': 'Distance (meters)'}, nbins=30, color_discrete_sequence=['#EF553B'])
+            st.plotly_chart(fig)
+            st.write("**Insight:** The distance distribution indicates the most common race lengths, which helps in planning race strategies.")
+
+            st.write("### Top Courses by Win Percentage")
+            course_win_rate = display_dataset.groupby('course')['res_win'].mean().sort_values(ascending=False).head(10).reset_index()
+            fig = px.bar(course_win_rate, x='course', y='res_win', title='Top Courses by Win Percentage', labels={'res_win': 'Win Percentage', 'course': 'Course'}, color='res_win')
+            st.plotly_chart(fig)
+            st.write("**Insight:** This chart identifies the racecourses where horses have performed exceptionally well, helping  focus on strategic locations.")
+
+        footer()
+
 if __name__ == '__main__':
     main()
+
+
